@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forex Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h2>Forex Rates (USD Base)</h2>
+  <canvas id="myChart" width="400" height="200"></canvas>
+
+  <script>
+    async function loadData() {
+      const res = await fetch("/data");
+      const json = await res.json();
+      const labels = Object.keys(json.rates).slice(0, 5);
+      const values = Object.values(json.rates).slice(0, 5);
+
+      new Chart(document.getElementById("myChart"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Exchange Rate",
+            data: values,
+            backgroundColor: "blue"
+          }]
+        }
+      });
+    }
+    loadData();
+  </script>
+</body>
+</html>
